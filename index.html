@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminal Web</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="terminal"></div>
@@ -12,18 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
     <script>
         $(document).ready(function() {
-            function typeWriter(term, text, i, callback) {
-                if (i < text.length) {
-                    term.insert(text.charAt(i));
-                    i++;
-                    setTimeout(function() {
-                        typeWriter(term, text, i, callback);
-                    }, 100);
-                } else if (typeof callback === 'function') {
-                    callback();
-                }
-            }
-
             function detectIP(callback) {
                 $.getJSON('https://api.ipify.org?format=json')
                     .done(function(data) {
@@ -34,50 +23,36 @@
                     });
             }
 
-            function detectOS(callback) {
+            function detectOS() {
                 var os = "Unknown OS";
                 if (navigator.appVersion.indexOf("Win") !== -1) os = "Windows";
                 if (navigator.appVersion.indexOf("Mac") !== -1) os = "MacOS";
                 if (navigator.appVersion.indexOf("X11") !== -1) os = "UNIX";
                 if (navigator.appVersion.indexOf("Linux") !== -1) os = "Linux";
-                callback('Detected OS: ' + os);
+                return 'Detected OS: ' + os;
             }
 
-            function detectBrowser(callback) {
+            function detectBrowser() {
                 var userAgent = navigator.userAgent;
                 var browser = "Unknown Browser";
                 if (userAgent.indexOf("Chrome") !== -1) browser = "Chrome";
                 else if (userAgent.indexOf("Firefox") !== -1) browser = "Firefox";
                 else if (userAgent.indexOf("Safari") !== -1) browser = "Safari";
                 else if (userAgent.indexOf("MSIE") !== -1 || !!document.documentMode === true) browser = "IE"; // IE <= 10
-                callback('Detected Browser: ' + browser);
+                return 'Detected Browser: ' + browser;
             }
 
-            $('#terminal').terminal(function(command, term) {
-                if (command === 'start') {
-                    term.clear();
-                    typeWriter(term, 'Welcome', 0, function() {
-                        term.echo('');
-                        detectIP(function(ipText) {
-                            typeWriter(term, ipText, 0, function() {
-                                term.echo('');
-                                detectOS(function(osText) {
-                                    typeWriter(term, osText, 0, function() {
-                                        term.echo('');
-                                        detectBrowser(function(browserText) {
-                                            typeWriter(term, browserText, 0);
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                } else {
+            detectIP(function(ipText) {
+                var osText = detectOS();
+                var browserText = detectBrowser();
+                var greetingsText = 'Welcome\n' + ipText + '\n' + osText + '\n' + browserText + '\n\nType "help" to see available commands' + '\n\n';
+
+                $('#terminal').terminal(function(command, term) {
                     term.echo('Unknown command: ' + command);
-                }
-            }, {
-                greetings: 'Type "start" to begin',
-                prompt: '> '
+                }, {
+                    greetings: greetingsText,
+                    prompt: '> '
+                });
             });
         });
     </script>
