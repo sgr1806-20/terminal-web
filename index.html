@@ -11,7 +11,56 @@
         <div id="output"></div>
         <input type="text" id="command" autofocus>
     </div>
+    <div id="info">
+        <p id="welcome">Welcome</p>
+        <p id="ip">Detected IP: <span id="ip-address"></span></p>
+        <p id="os">Detected OS: <span id="os-name"></span></p>
+        <p id="browser">Detected Browser: <span id="browser-name"></span></p>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            function typeWriter(element, text, i, callback) {
+                if (i < text.length) {
+                    $(element).append(text.charAt(i));
+                    i++;
+                    setTimeout(function() {
+                        typeWriter(element, text, i, callback);
+                    }, 100);
+                } else if (typeof callback == 'function') {
+                    callback();
+                }
+            }
+
+            function detectIP() {
+                $.getJSON('https://api.ipify.org?format=json', function(data) {
+                    typeWriter('#ip-address', data.ip, 0);
+                });
+            }
+
+            function detectOS() {
+                var os = "Unknown OS";
+                if (navigator.appVersion.indexOf("Win") != -1) os = "Windows";
+                if (navigator.appVersion.indexOf("Mac") != -1) os = "MacOS";
+                if (navigator.appVersion.indexOf("X11") != -1) os = "UNIX";
+                if (navigator.appVersion.indexOf("Linux") != -1) os = "Linux";
+                typeWriter('#os-name', os, 0);
+            }
+
+            function detectBrowser() {
+                var browser = "Unknown Browser";
+                if (navigator.userAgent.indexOf("Chrome") != -1) browser = "Chrome";
+                if (navigator.userAgent.indexOf("Firefox") != -1) browser = "Firefox";
+                if (navigator.userAgent.indexOf("Safari") != -1) browser = "Safari";
+                if (navigator.userAgent.indexOf("MSIE") != -1 || !!document.documentMode == true) browser = "IE"; // IE <= 10
+                typeWriter('#browser-name', browser, 0);
+            }
+
+            detectIP();
+            detectOS();
+            detectBrowser();
+        });
+    </script>
 </body>
 </html>
