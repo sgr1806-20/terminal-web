@@ -17,3 +17,7 @@ The website now detects the visitor's IP address, operating system, and browser 
 1. Open `index.html` in your web browser.
 2. You will see a section displaying the detected IP address, operating system, and browser.
 3. The information will be displayed with a typing animation.
+
+## Background Color
+
+The background color of the terminal window is black.
