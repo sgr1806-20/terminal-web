@@ -23,16 +23,26 @@ body {
 #output {
     white-space: pre-wrap;
     word-wrap: break-word;
+    background-color: #1e1e1e;
+    color: white;
+    font-family: monospace;
+    font-size: 16px;
+    border: 1px solid #333;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 #command {
     width: 100%;
-    background-color: black;
+    background-color: #1e1e1e;
     color: white;
-    border: none;
+    border: 1px solid #333;
     outline: none;
     font-family: monospace;
     font-size: 16px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .terminal-window {
@@ -59,4 +69,12 @@ body {
     font-family: monospace;
     font-size: 16px;
     margin-top: 10px;
+}
+
+.terminal-common {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
