@@ -4,66 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminal Web</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css">
 </head>
 <body>
-    <div class="terminal-window terminal-common">
-        <div class="terminal-content terminal-common">
-            <div id="terminal">
-                <div id="output"></div>
-                <input type="text" id="command" autofocus>
-                <div class="terminal-text">
-                    <p id="welcome">Welcome</p>
-                    <p id="ip">Detected IP: <span id="ip-address"></span></p>
-                    <p id="os">Detected OS: <span id="os-name"></span></p>
-                    <p id="browser">Detected Browser: <span id="browser-name"></span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <div id="terminal"></div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
     <script>
         $(document).ready(function() {
-            function typeWriter(element, text, i, callback) {
+            function typeWriter(term, text, i, callback) {
                 if (i < text.length) {
-                    $(element).append(text.charAt(i));
+                    term.insert(text.charAt(i));
                     i++;
                     setTimeout(function() {
-                        typeWriter(element, text, i, callback);
+                        typeWriter(term, text, i, callback);
                     }, 100);
-                } else if (typeof callback == 'function') {
+                } else if (typeof callback === 'function') {
                     callback();
                 }
             }
 
-            function detectIP() {
-                $.getJSON('https://api.ipify.org?format=json', function(data) {
-                    typeWriter('#ip-address', data.ip, 0);
-                });
+            function detectIP(callback) {
+                $.getJSON('https://api.ipify.org?format=json')
+                    .done(function(data) {
+                        callback('Detected IP: ' + data.ip);
+                    })
+                    .fail(function() {
+                        callback('Detected IP: Unable to detect IP');
+                    });
             }
 
-            function detectOS() {
+            function detectOS(callback) {
                 var os = "Unknown OS";
-                if (navigator.appVersion.indexOf("Win") != -1) os = "Windows";
-                if (navigator.appVersion.indexOf("Mac") != -1) os = "MacOS";
-                if (navigator.appVersion.indexOf("X11") != -1) os = "UNIX";
-                if (navigator.appVersion.indexOf("Linux") != -1) os = "Linux";
-                typeWriter('#os-name', os, 0);
+                if (navigator.appVersion.indexOf("Win") !== -1) os = "Windows";
+                if (navigator.appVersion.indexOf("Mac") !== -1) os = "MacOS";
+                if (navigator.appVersion.indexOf("X11") !== -1) os = "UNIX";
+                if (navigator.appVersion.indexOf("Linux") !== -1) os = "Linux";
+                callback('Detected OS: ' + os);
             }
 
-            function detectBrowser() {
+            function detectBrowser(callback) {
+                var userAgent = navigator.userAgent;
                 var browser = "Unknown Browser";
-                if (navigator.userAgent.indexOf("Chrome") != -1) browser = "Chrome";
-                if (navigator.userAgent.indexOf("Firefox") != -1) browser = "Firefox";
-                if (navigator.userAgent.indexOf("Safari") != -1) browser = "Safari";
-                if (navigator.userAgent.indexOf("MSIE") != -1 || !!document.documentMode == true) browser = "IE"; // IE <= 10
-                typeWriter('#browser-name', browser, 0);
+                if (userAgent.indexOf("Chrome") !== -1) browser = "Chrome";
+                else if (userAgent.indexOf("Firefox") !== -1) browser = "Firefox";
+                else if (userAgent.indexOf("Safari") !== -1) browser = "Safari";
+                else if (userAgent.indexOf("MSIE") !== -1 || !!document.documentMode === true) browser = "IE"; // IE <= 10
+                callback('Detected Browser: ' + browser);
             }
 
-            detectIP();
-            detectOS();
-            detectBrowser();
+            $('#terminal').terminal(function(command, term) {
+                if (command === 'start') {
+                    term.clear();
+                    typeWriter(term, 'Welcome', 0, function() {
+                        term.echo('');
+                        detectIP(function(ipText) {
+                            typeWriter(term, ipText, 0, function() {
+                                term.echo('');
+                                detectOS(function(osText) {
+                                    typeWriter(term, osText, 0, function() {
+                                        term.echo('');
+                                        detectBrowser(function(browserText) {
+                                            typeWriter(term, browserText, 0);
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                } else {
+                    term.echo('Unknown command: ' + command);
+                }
+            }, {
+                greetings: 'Type "start" to begin',
+                prompt: '> '
+            });
         });
     </script>
 </body>
