@@ -19,4 +19,19 @@ $(document).ready(function() {
             }
         });
     }
+
+    function handleResize() {
+        var viewportHeight = $(window).height();
+        var viewportWidth = $(window).width();
+        $('.terminal-window').css({
+            'height': viewportHeight,
+            'width': viewportWidth
+        });
+    }
+
+    $(window).resize(function() {
+        handleResize();
+    });
+
+    handleResize();
 });

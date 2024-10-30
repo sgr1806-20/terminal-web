@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="terminal">
-        <div id="output"></div>
-        <input type="text" id="command" autofocus>
-    </div>
-    <div id="info">
-        <p id="welcome">Welcome</p>
-        <p id="ip">Detected IP: <span id="ip-address"></span></p>
-        <p id="os">Detected OS: <span id="os-name"></span></p>
-        <p id="browser">Detected Browser: <span id="browser-name"></span></p>
+    <div class="terminal-window">
+        <div class="terminal-content">
+            <div id="terminal">
+                <div id="output"></div>
+                <input type="text" id="command" autofocus>
+            </div>
+            <div id="info">
+                <p id="welcome">Welcome</p>
+                <p id="ip">Detected IP: <span id="ip-address"></span></p>
+                <p id="os">Detected OS: <span id="os-name"></span></p>
+                <p id="browser">Detected Browser: <span id="browser-name"></span></p>
+            </div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
