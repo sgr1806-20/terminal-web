@@ -42,17 +42,66 @@
                 return 'Detected Browser: ' + browser;
             }
 
+            function fetchCommands() {
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: 'api.php',
+                        method: 'POST',
+                        data: { token: 'your_secure_token' },
+                        dataType: 'json',
+                        success: function(data) {
+                            resolve(data);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            reject(errorThrown);
+                        }
+                    });
+                });
+            }
+
             detectIP(function(ipText) {
                 var osText = detectOS();
                 var browserText = detectBrowser();
-                var greetingsText = 'Welcome\n' + ipText + '\n' + osText + '\n' + browserText + '\n\nType "help" to see available commands' + '\n\n';
+                var greetingsText =
+                    "Welcome\n" +
+                    ipText +
+                    "\n" +
+                    osText +
+                    "\n" +
+                    browserText +
+                    '\n\nType "help" to see available commands' +
+                    "\n\n";
 
-                $('#terminal').terminal(function(command, term) {
-                    term.echo('Unknown command: ' + command);
-                }, {
-                    greetings: greetingsText,
-                    prompt: '> '
-                });
+                fetchCommands()
+                    .then((commands) => {
+                        $("#terminal").terminal(
+                            function (command, term) {
+                                if (command === "help") {
+                                    let helpText = "Available commands:\n";
+                                    commands.forEach((cmd) => {
+                                        helpText += `${cmd.command} - ${cmd.description}\n`;
+                                    });
+                                    term.echo(helpText);
+                                } else {
+                                    const foundCommand = commands.find(
+                                        (cmd) => cmd.command === command
+                                    );
+                                    if (foundCommand) {
+                                        term.echo(foundCommand.description);
+                                    } else {
+                                        term.echo("Unknown command: " + command);
+                                    }
+                                }
+                            },
+                            {
+                                greetings: greetingsText,
+                                prompt: "> ",
+                            }
+                        );
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching commands:", error);
+                    });
             });
         });
     </script>
