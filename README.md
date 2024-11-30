@@ -1,4 +1,4 @@
-# terminal-web
+# Terminal Website
 a jQuery based website that mimics a terminal window with LLM integration
 
 ## Overview
