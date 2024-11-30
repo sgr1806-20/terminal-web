@@ -3,107 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal Web</title>
+    <title>Terminal Website</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Terminal Version 1.02.01-->
 </head>
 <body>
     <div id="terminal"></div>
     <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            function detectIP(callback) {
-                $.getJSON('https://api.ipify.org?format=json')
-                    .done(function(data) {
-                        callback('Detected IP: ' + data.ip);
-                    })
-                    .fail(function() {
-                        callback('Detected IP: Unable to detect IP');
-                    });
-            }
-
-            function detectOS() {
-                var os = "Unknown OS";
-                if (navigator.appVersion.indexOf("Win") !== -1) os = "Windows";
-                if (navigator.appVersion.indexOf("Mac") !== -1) os = "MacOS";
-                if (navigator.appVersion.indexOf("X11") !== -1) os = "UNIX";
-                if (navigator.appVersion.indexOf("Linux") !== -1) os = "Linux";
-                return 'Detected OS: ' + os;
-            }
-
-            function detectBrowser() {
-                var userAgent = navigator.userAgent;
-                var browser = "Unknown Browser";
-                if (userAgent.indexOf("Chrome") !== -1) browser = "Chrome";
-                else if (userAgent.indexOf("Firefox") !== -1) browser = "Firefox";
-                else if (userAgent.indexOf("Safari") !== -1) browser = "Safari";
-                else if (userAgent.indexOf("MSIE") !== -1 || !!document.documentMode === true) browser = "IE"; // IE <= 10
-                return 'Detected Browser: ' + browser;
-            }
-
-            function fetchCommands() {
-                return new Promise((resolve, reject) => {
-                    $.ajax({
-                        url: 'api.php',
-                        method: 'POST',
-                        data: { token: 'your_secure_token' },
-                        dataType: 'json',
-                        success: function(data) {
-                            resolve(data);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            reject(errorThrown);
-                        }
-                    });
-                });
-            }
-
-            detectIP(function(ipText) {
-                var osText = detectOS();
-                var browserText = detectBrowser();
-                var greetingsText =
-                    "Welcome\n" +
-                    ipText +
-                    "\n" +
-                    osText +
-                    "\n" +
-                    browserText +
-                    '\n\nType "help" to see available commands' +
-                    "\n\n";
-
-                fetchCommands()
-                    .then((commands) => {
-                        $("#terminal").terminal(
-                            function (command, term) {
-                                if (command === "help") {
-                                    let helpText = "Available commands:\n";
-                                    commands.forEach((cmd) => {
-                                        helpText += `${cmd.command} - ${cmd.description}\n`;
-                                    });
-                                    term.echo(helpText);
-                                } else {
-                                    const foundCommand = commands.find(
-                                        (cmd) => cmd.command === command
-                                    );
-                                    if (foundCommand) {
-                                        term.echo(foundCommand.description);
-                                    } else {
-                                        term.echo("Unknown command: " + command);
-                                    }
-                                }
-                            },
-                            {
-                                greetings: greetingsText,
-                                prompt: "> ",
-                            }
-                        );
-                    })
-                    .catch((error) => {
-                        console.error("Error fetching commands:", error);
-                    });
-            });
-        });
-    </script>
+    <script src="js/init.js"></script>
+    <script src="js/email.js"></script>
+    <script src="js/llm.js"></script>
+    <script src="js/spider.js"></script>
+    <script src="js/matrix.js"></script>
 </body>
 </html>

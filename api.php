@@ -1,8 +1,24 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kodspider";
+/**
+ * PHP Script for Terminal Interface Website
+ *
+ * Author: sgr1806-20
+ * Author URL: https://github.com/sgr1806-20
+ * Company: Kodspider Technologies
+ * Company URL: https://kodspider.com
+ *
+ * Copyright (c) Kodspider Technologies. All rights reserved.
+ *
+ * This script is part of the Kodspider Terminal Interface project.
+ * It is licensed under the MIT License.
+ *
+ * Version: 1.1
+ * Date: 30-11-2024
+ */
+$servername = "localhost"; // Change this to your MySQL server name
+$username = ""; // Change this to your MySQL username
+$password = ""; // Change this to your MySQL password
+$dbname = ""; // Change this to your MySQL database name
 
 // Define a valid token
 $valid_token = "your_secure_token";
@@ -23,7 +39,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch data from the commands table
-$sql = "SELECT command, description FROM commands";
+$sql = "SELECT command, description, output FROM commands";
 $result = $conn->query($sql);
 
 $commands = array();

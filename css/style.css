@@ -1,83 +1,114 @@
+/*
+ * Stylesheet for Terminal Interface Website
+ *
+ * Author: sgr1806-20
+ * Author URL: https://github.com/sgr1806-20
+ * Company: Kodspider Technologies
+ * Company URL: https://kodspider.com
+ *
+ * Copyright (c) Kodspider Technologies. All rights reserved.
+ *
+ * This stylesheet is part of the Kodspider Terminal Interface project.
+ * It is licensed under the MIT License.
+ *
+ * Version: 1.1
+ * Date: 30-11-2024
+ */
 body {
-    background-color: black;
-    color: white;
-    font-family: monospace;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  background: black;
+  color: green;
+  font-family: monospace;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #terminal {
-    width: 80%;
-    height: 80%;
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow-y: auto;
+  width: 80%;
+  height: 80%;
+  background-color: black;
+  border: 1px solid #00e0eb;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 #output {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    background-color: #1e1e1e;
-    color: white;
-    font-family: monospace;
-    font-size: 16px;
-    border: 1px solid #333;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: black;
+  color: green;
+  font-family: monospace;
+  font-size: 16px;
+  border: 1px solid #00e0eb;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 #command {
-    width: 100%;
-    background-color: #1e1e1e;
-    color: white;
-    border: 1px solid #333;
-    outline: none;
-    font-family: monospace;
-    font-size: 16px;
-    padding: 10px;
-    box-sizing: border-box;
+  width: 100%;
+  background-color: black;
+  color: green;
+  border: 1px solid #00e0eb;
+  outline: none;
+  font-family: monospace;
+  font-size: 16px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .terminal-window {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black; /* P394a */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
 }
 
 .terminal-content {
-    width: 80%;
-    height: 80%;
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    background-color: black; /* P394a */
+  width: 80%;
+  height: 80%;
+  background-color: black;
+  border: 1px solid #00e0eb;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .terminal-text {
-    color: white;
-    font-family: monospace;
-    font-size: 16px;
-    margin-top: 10px;
+  color: green;
+  font-family: monospace;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 .terminal-common {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    background-color: black; /* P394a */
+  background-color: black;
+  border: 1px solid #00e0eb;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Matrix-like background */
+.matrix-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  overflow: hidden;
+}
+
+.matrix-background canvas {
+  width: 100%;
+  height: 100%;
 }
