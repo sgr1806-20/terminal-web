@@ -17,6 +17,10 @@ Terminal-web is a web-based terminal emulator that allows users to interact with
 
 Commands are fetched from a MySQL database using a PHP script. The script queries the database for a list of available commands and their corresponding outputs. The commands are then displayed in the terminal window, and the user can interact with them by typing the command name.
 
+## Preview
+
+Check our website at https://kodspider.com/
+
 ## LLM Integration
 
 The project uses a PHP proxy script to handle requests to the LLM API. The proxy script is configured to use the Awanllm-Llama-3-8B-Dolfin model by default, but you can change this to any other model supported by the LLM API.
