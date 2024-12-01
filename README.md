@@ -11,7 +11,7 @@ Terminal-web is a web-based terminal emulator that allows users to interact with
 2. You will see a terminal window with an input field.
 3. Type your command or question in the input field and press Enter.
 4. The command will be processed asynchronously, and the output will be displayed in the terminal window.
-5. For LLM-related queries, the response will be displayed with a typing animation.
+5. For LLM-related queries, a progress bar is shown until the response is displayed. 
 
 ## Commands
 
